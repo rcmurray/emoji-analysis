@@ -18,13 +18,15 @@
       const transports = ['websocket', 'polling'];
       const token = objectHash(performance.now());
       const path = "/bazsocket/";
+      const clientID = "DCSS";
       const agent = "mturklightside";
-      const roomName = "12346"; 
+      const roomName = "12347"; 
       const userName = "Garron";
       const userID = "1";
       
       const auth = {
         token,
+        clientID, 
         agent,
         roomName,
         userID,
