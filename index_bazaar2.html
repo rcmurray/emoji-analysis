@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    <h2>Use this to demonstrate send and receive to socket server</h2>
+    <h3>Type in the input and click "Analyze". If your message includes an emoji, it will be reported below.</h3>
+    <form>
+      <input autofocus id="input" />
+      <input type="submit" value="Analyze" />
+    </form>
+    <p id="interjection"></p>
+    <p id="outcome"></p>
+    <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/object-hash/dist/object_hash.js"></script>
+    <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script>
+      const endpoint = 'https://misty.lti.cs.cmu.edu';
+      const transports = ['websocket', 'polling'];
+      const token = objectHash(performance.now());
+      const path = "/bazsocket/";
+      const clientID = "DCSS";
+      const agent = "mturklightside";
+      const roomName = "20003"; 
+      const userName = "Garron";
+      const userID = "1";
+      
+      const auth = {
+        token,
+        clientID, 
+        agent,
+        roomName,
+        userID,
+        userName
+      };
+      console.log('token', token);
+      console.log('endpoint', endpoint);
+
+      const socket = io(endpoint, {
+        transports,
+        path,
+        auth
+      });;
+
+      const form = document.querySelector('form');
+      const input = document.getElementById('input');
+      const outcome = document.getElementById('outcome');
+      const submit = document.querySelector('input[type=submit]');
+      const interjection = document.getElementById('interjection');
+
+
+      const onSubmit = () => {
+        const value = input.value;
+        socket.emit('request', {
+          token,
+          clientID, 
+          agent,
+          roomName,
+          userID,
+          userName,
+          value
+        });
+      };
+
+      form.onsubmit = event => {
+        onSubmit();
+        return false;
+      };
+
+      let timeout;
+      socket.on('interjection', ({ message }) => {
+        interjection.innerHTML = message;
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        timeout = setTimeout(() => interjection.innerHTML = '', 3000);
+      });
+
+      socket.on('response', ({ value, result }) => {
+        outcome.innerHTML = `The text "${value}" ${result ? 'contains an emoji' : 'does not contain an emoji'}`;
+      });
+    </script>
+  </body>
+</html>
