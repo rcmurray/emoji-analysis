@@ -21,14 +21,17 @@
       const endpoint = 'https://misty.lti.cs.cmu.edu';
       const transports = ['websocket', 'polling'];
       const context = {};
+      const path = "/bazsocket/";
+      const agent = "mturklightside";
+      const room = "10000"; 
 
       console.log('token', token);
       console.log('endpoint', endpoint);
       const socket = io(endpoint, {
         transports,
-        path: "/bazsocket/",
-        agent: "mturklightside",
-        room: "10000",
+        path: path,
+        agent: agent,
+        room: room,
         auth: {
           token
         }
@@ -47,6 +50,8 @@
           context,
           token,
           key,
+          agent,
+          room, 
           value
         });
       };
