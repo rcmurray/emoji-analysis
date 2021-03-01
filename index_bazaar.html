@@ -14,28 +14,30 @@
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/object-hash/dist/object_hash.js"></script>
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/socket.io/client-dist/socket.io.js"></script>
     <script>
-      const key = 'userInput';
-      const token = objectHash(performance.now()).slice(0, 10);
-      const port = 'misty.lti.cs.cmu.edu/bazaar'; 
-      <!-- const endpoint = location.origin.replace(/:\d.*/, `:${port}`); -->
       const endpoint = 'https://misty.lti.cs.cmu.edu';
       const transports = ['websocket', 'polling'];
-      const context = {};
+      const token = objectHash(performance.now());
       const path = "/bazsocket/";
       const agent = "mturklightside";
-      const room = "10000"; 
-
+      const roomName = "12346"; 
+      const userName = "Garron";
+      const userID = "1";
+      
+      const auth = {
+        token,
+        agent,
+        roomName,
+        userID,
+        userName
+      };
       console.log('token', token);
       console.log('endpoint', endpoint);
+
       const socket = io(endpoint, {
         transports,
-        path: path,
-        agent: agent,
-        room: room,
-        auth: {
-          token
-        }
-      });
+        path,
+        auth
+      });;
 
       const form = document.querySelector('form');
       const input = document.getElementById('input');
@@ -43,11 +45,13 @@
       const submit = document.querySelector('input[type=submit]');
       const interjection = document.getElementById('interjection');
 
+      const key = 'userInput';
+      const annotations = [];
 
       const onSubmit = () => {
         const value = input.value;
         socket.emit('request', {
-          context,
+          annotations,
           token,
           key,
           agent,
