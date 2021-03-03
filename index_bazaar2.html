@@ -20,7 +20,10 @@
       const path = "/bazsocket/";
       const clientID = "DCSS";
       const agent = "mturklightside";
-      const roomName = "20005"; 
+      const roomName = "40003"; 
+      const roomid = agent + roomName; 
+      const room = roomid; 
+      console.log("roomid: ",roomid);
       const username = "Garron";
       const userID = "1";
       
@@ -29,6 +32,7 @@
         clientID, 
         agent,
         roomName,
+        roomid, 
         userID,
         username
       };
@@ -50,15 +54,11 @@
 
       const onSubmit = () => {
         const value = input.value;
-        socket.emit('request', {
-          token,
-          clientID, 
-          agent,
-          roomName,
-          userID,
-          username,
-          value
-        });
+        socket.emit('sendchat', value); 
+        // socket.emit('sendchat', {
+        //   token,
+        //   value
+        // });
       };
 
       form.onsubmit = event => {
@@ -76,7 +76,7 @@
         timeout = setTimeout(() => interjection.innerHTML = '', 3000);
       });
 
-      socket.on('response', ({ value, result }) => {
+      socket.on('updatechat', ({ value, result }) => {
         outcome.innerHTML = `The text "${value}" ${result ? 'contains an emoji' : 'does not contain an emoji'}`;
       });
     </script>
