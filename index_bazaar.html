@@ -14,17 +14,14 @@
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/object-hash/dist/object_hash.js"></script>
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/socket.io/client-dist/socket.io.js"></script>
     <script>
-      const endpoint = 'https://misty.lti.cs.cmu.edu';
+      const endpoint = 'https://misty.lti.cs.cmu.edu';		// The hostname is likely to change before long
       const transports = ['websocket', 'polling'];
       const token = objectHash(performance.now());
       const path = "/bazsocket/";
       const clientID = "DCSS";
-      const agent = "dcsslightside";
-      const roomName = "40005"; 
-      // const roomid = agent + roomName; 
-      // const room = roomid; 
-      // console.log("roomid: ",roomid);
-      const userID = "1";
+      const agent = "dcsslightside";		// agent value is a temporary fill-in for the politeness agent 
+      const roomName = "40005"; 			// roomName must be unique per room / chat group
+      const userID = "1";					// userID must be unique per user
       const username = "Garron";
       
       const auth = {
