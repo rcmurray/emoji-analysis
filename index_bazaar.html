@@ -14,14 +14,14 @@
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/object-hash/dist/object_hash.js"></script>
     <script src="/Users/rcmurray/git/rcmurray/emoji-analysis/node_modules/socket.io/client-dist/socket.io.js"></script>
     <script>
-      const endpoint = 'https://misty.lti.cs.cmu.edu';		// The hostname is likely to change before long
+      const endpoint = 'https://misty.lti.cs.cmu.edu';		
       const transports = ['websocket', 'polling'];
       const token = objectHash(performance.now());
       const path = "/bazsocket/";
       const clientID = "DCSS";
-      const agent = "dcsslightside";		// agent value is a temporary fill-in for the politeness agent 
-      const roomName = "40005"; 			// roomName must be unique per room / chat group
-      const userID = "1";					// userID must be unique per user
+      const agent = "dcsslightside";		
+      const roomName = "40006"; 			
+      const userID = "1";					
       const username = "Garron";
       
       const auth = {
@@ -70,10 +70,6 @@
           timeout = null;
         }
         timeout = setTimeout(() => interjection.innerHTML = '', 3000);
-      });
-
-      socket.on('updatechat', ({ value, result }) => {
-        outcome.innerHTML = `The text "${value}" ${result ? 'contains an emoji' : 'does not contain an emoji'}`;
       });
     </script>
   </body>
